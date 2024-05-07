@@ -1,7 +1,7 @@
 import { ICacheManager } from "../index";
 import { createClient } from "redis";
 import dotenv from "dotenv";
-import { RedisEventCreate, RedisEventFetch } from "./index";
+import { RedisDataCreator, RedisDataFetcher } from "./index";
 
 dotenv.config();
 
@@ -29,7 +29,7 @@ export class RedisManager implements ICacheManager {
     async create(key: string, value: any, expirationDurationInSeconds: number): Promise<boolean> {
         return new Promise((resolve, reject) => {
             try {
-                RedisEventCreate.create(this.redisClient, key, value, expirationDurationInSeconds);
+                RedisDataCreator.create(this.redisClient, key, value, expirationDurationInSeconds);
                 resolve(true);
             } catch (err) {
                 reject(err);
@@ -40,7 +40,7 @@ export class RedisManager implements ICacheManager {
     async fetch(key: string): Promise<any> {
         return new Promise((resolve, reject) => {
             try {
-                const result =  RedisEventFetch.fetch(this.redisClient, key);
+                const result =  RedisDataFetcher.fetch(this.redisClient, key);
                 resolve(result);
             } catch (err) {
                 reject(err);

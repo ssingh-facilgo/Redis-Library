@@ -1,3 +1,3 @@
 export * from "./RedisManager";
-export * from "./RedisEventCreate";
-export * from "./RedisEventFetch";
+export * from "./RedisDataCreator";
+export * from "./RedisDataFetcher";
