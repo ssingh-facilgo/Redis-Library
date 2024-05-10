@@ -1,3 +1,3 @@
-export * from "./CacheMangerUtil";
+export * from "./Util";
 export * from "./ICacheManager";
 export * from "./CacheManagerFactory";

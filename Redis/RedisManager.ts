@@ -1,16 +1,12 @@
 import { ICacheManager } from "../index";
 import { createClient } from "redis";
-import dotenv from "dotenv";
-import { RedisDataCreator, RedisDataFetcher } from "./index";
-
-dotenv.config();
+import { RedisDataWriter, RedisDataReader } from "./index";
 
 export class RedisManager implements ICacheManager {
 
     private redisClient: any;
 
-    constructor() {
-        const redisURL = process.env.REDIS_URI;
+    constructor(redisURL: any) {
         if (redisURL) {
             this.redisClient = createClient({ url: redisURL });
             this.redisClient.on("error", (error: any) => {
@@ -26,10 +22,10 @@ export class RedisManager implements ICacheManager {
         }
     }
 
-    async create(key: string, value: any, expirationDurationInSeconds: number): Promise<boolean> {
+    async write(key: string, value: any, expirationDurationInSeconds?: number): Promise<boolean> {
         return new Promise((resolve, reject) => {
             try {
-                RedisDataCreator.create(this.redisClient, key, value, expirationDurationInSeconds);
+                RedisDataWriter.write(this.redisClient, key, value, expirationDurationInSeconds);
                 resolve(true);
             } catch (err) {
                 reject(err);
@@ -37,10 +33,10 @@ export class RedisManager implements ICacheManager {
         });
     }
 
-    async fetch(key: string): Promise<any> {
+    async read(key: string): Promise<any> {
         return new Promise((resolve, reject) => {
             try {
-                const result =  RedisDataFetcher.fetch(this.redisClient, key);
+                const result = RedisDataReader.read(this.redisClient, key);
                 resolve(result);
             } catch (err) {
                 reject(err);

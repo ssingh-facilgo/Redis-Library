@@ -1,11 +1,11 @@
-import { ICacheManager, CacheUtil } from "./index";
+import { ICacheManager, CacheManager } from "./index";
 import { RedisManager } from "./Redis/index";
 
 export class CacheManagerFactory {
-  public static getcacheManager(type: string): ICacheManager | null {
+  public static getcacheManager(type: string, url: any): ICacheManager | null {
     switch (type) {
-      case CacheUtil.REDIS:
-        return new RedisManager();
+      case CacheManager.REDIS:
+        return new RedisManager(url);
       default:
         return null;
     }
